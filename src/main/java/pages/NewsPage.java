@@ -4,7 +4,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import static org.openqa.selenium.By.xpath;
 public class NewsPage extends BasePage {
 
     private static final long DEFAULT_WAITING_TIME = 60;
-    private static final String HEADLINE_ARTICLE_TITLE = "//div[contains(@class,'gs-c-promo-body gs-u-display-none gs-u-display-inline-block@m gs-u-mt@xs gs-u-mt0@m gel-1/3@m')]//a[contains(@class,'gs-c-promo-heading gs-o-faux-block-link__overlay-link gel-paragon-bold nw-o-link-split__anchor')]";
+    private static final String HEADLINE_ARTICLE_TITLE = "//div[contains(@class,'gs-c-promo-body gs-u-display-none gs-u-display-inline-block@m gs-u-mt@xs gs-u-mt0@m gel-1/3@m')]//a[contains(@class,'gs-c-promo-heading gs-o-faux-block-link__overlay-link gel-paragon-bold nw-o-link-split__anchor')]//h3[contains(@class,'gs-c-promo-heading__title gel-paragon-bold nw-o-link-split__text')]";
     private static final String SECONDARY_ARTICLES_TITLE_LIST = "//h3[@class= 'gs-c-promo-heading__title gel-pica-bold nw-o-link-split__text']";
     private static final String HEADLINE_ARTICLE_TITLE_CATEGORY = "//div[contains(@class,'gs-c-promo-body gs-u-mt@xxs gs-u-mt@m gs-c-promo-body--primary gs-u-mt@xs gs-u-mt@s gs-u-mt@m gs-u-mt@xl gel-1/3@m gel-1/2@xl gel-1/1@xxl')]//a[contains(@class,'gs-c-promo-heading gs-o-faux-block-link__overlay-link gel-paragon-bold gs-u-mt+ nw-o-link-split__anchor')]//h3[@class='gs-c-promo-heading__title gel-paragon-bold gs-u-mt+ nw-o-link-split__text']";
     private static final String CATEGORY_LINK = "//ul[@class='gs-o-list-inline gs-o-list-inline--divided gel-brevier gs-u-mt-']//a[contains(@class,'gs-c-section-link gs-c-section-link--truncate nw-c-section-link nw-o-link nw-o-link--no-visited-state')]";
@@ -125,12 +124,10 @@ public class NewsPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView();", sendUsQuestionForm);
     }
 
-    public void fillSendUsQuestionForm(String question, String name, String email) {
+    public void fillSendUsQuestionForm(final String question, final String name, final String email) {
         fillQuestionField(question);
         fillNameField(name);
         fillEmailField(email);
-        clickTermsOfServiceCheckbox();
-        clickSubmitButton();
     }
 
     public WebElement getSendQuestionFormHeading() {
