@@ -52,9 +52,7 @@ public class SportPage extends BasePage {
         return CHAMPIONSHIP_MONTH + date + "')]";
     }
 
-    public String getHomeTeamActual() {
-        return getHomeTeamList().get(0).getText();
-    }
+    public String getHomeTeamActual() { return getHomeTeamList().get(0).getText(); }
 
     public String getAwayTeamActual() {
         return getAwayTeamList().get(0).getText();

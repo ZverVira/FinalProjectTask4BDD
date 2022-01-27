@@ -5,6 +5,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import manager.PageFactoryManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -149,7 +150,57 @@ public class DefinitionSteps {
             assertFalse(newsPage.getNameFieldContent().isEmpty());
         } else assertTrue(newsPage.getNameFieldContent().isEmpty());
     }
+
+    @And("User clicks on Sport button on Home page")
+    public void clickSportButton() {
+        homePage.moveToSportPage();
+        sportPage = pageFactoryManager.getSportPage();
+        sportPage.waitForPageLoadComplete(DEFAULT_WAITING_TIME);
+    }
+
+    @And("User selects Football menu item on Sport page")
+    public void selectFootballMenuItem() {
+        sportPage.clickFootballMenuItem();
+    }
+
+    @And("User selects Scores And Fixtures menu item on Sport page")
+    public void selectScoresAndFixturesMenuItem() {
+        sportPage.clickScoresAndFixturesMenuItem();
+    }
+
+    @And("User performs searching by championship {string}")
+    public void performSearchingByChampionship(final String championship) {
+        sportPage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, sportPage.getChampionshipSearchField());
+        sportPage.chooseChampionShip(championship);
+    }
+
+    @And("User selects month of championship {string}")
+    public void selectMonthOfChampionship(final String championshipDate) {
+        sportPage.chooseMonthOfChampionship(championshipDate);
+        sportPage.waitClickableOfElement(DEFAULT_WAITING_TIME, sportPage.getShowScorersButton());
+    }
+
+    @And("User checks that results of the first available game on Sport page equal {string}")
+    public void checkResultsOfTheFirstAvailableGameOnSportPage(final String gameResult) {
+        sportPage.moveToGameFromTheList();
+        assertEquals(sportPage.getChampionshipGameResult(), gameResult);
+    }
+
+    @And("User clicks on the first available game link on Sport page")
+    public void clickTheFirstAvailableGameOnSportPage() {
+        sportPage.navigateToGameDetailPage();
+        gamePage = pageFactoryManager.getGamePage();
+        gamePage.waitForPageLoadComplete(DEFAULT_WAITING_TIME);
+    }
+
+    @And("User check that results of the first available game on Game page equal {string}")
+    public void checkResultsOfTheFirstAvailableGameOnGamePageEqualsToResultsOfTheFirstAvailableGameOnSportPage(final String gameResult) {
+        gamePage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, gamePage.getGamePageHeader());
+        assertEquals(gamePage.getHomeTeamActual() + " " + gamePage.getHomeTeamScoreActual() + " " + gamePage.getAwayTeamScoreActual() + " " + gamePage.getAwayTeamActual(), gameResult);
+
+    }
 }
+
 
 
 

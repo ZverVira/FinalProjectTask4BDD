@@ -52,3 +52,20 @@ Feature: Smoke
       | https://www.bbc.com/ | [blank]      | test@test.com | clicks         | is not | can't be blank                                                                      | Test Name                                                                                                                                                                                                                                                            |
       | https://www.bbc.com/ | Test Message | test@test.com | clicks         | is     | Name can't be blank                                                                 | [blank]                                                                                                                                                                                                                                                              |
       | https://www.bbc.com/ | [blank]      | [blank]       | does not click | is     | can't be blank, Name can't be blank, Email address can't be blank, must be accepted | [blank]                                                                                                                                                                                                                                                              |
+
+  Scenario Outline: Check that team scores display correctly on Team page and equal to team scores on Sport page
+    Given User is on the '<homePage>' page
+    And User clicks on Sport button on Home page
+    And User selects Football menu item on Sport page
+    And User selects Scores And Fixtures menu item on Sport page
+    And User performs searching by championship '<championship>'
+    And User selects month of championship '<date>'
+    When User checks that results of the first available game on Sport page equal '<gameResult>'
+    And User clicks on the first available game link on Sport page
+    Then User check that results of the first available game on Game page equal '<gameResult>'
+
+    Examples:
+      | homePage             | championship          | date    | gameResult                     |
+      | https://www.bbc.com/ | Scottish Championship | 2021-12 | Kilmarnock 1 1 Greenock Morton |
+      | https://www.bbc.com/ | Champions League      | 2021-10 | Barcelona 1 0 Dynamo Kyiv      |
+      | https://www.bbc.com/ | Bayern Munich         | 2021-11 | Dynamo Kyiv 1 2 Bayern Munich  |
