@@ -40,6 +40,10 @@ public class NewsPage extends BasePage {
         return driver.findElement(xpath(HEADLINE_ARTICLE_TITLE)).getText();
     }
 
+    public WebElement getTermsOfServiceCheckbox() {
+        return driver.findElement(xpath(TERMS_OF_SERVICE));
+    }
+
     public List<WebElement> getSecondaryArticlesTitlesList() {
         return driver.findElements(xpath(SECONDARY_ARTICLES_TITLE_LIST));
     }

@@ -53,7 +53,7 @@ public class DefinitionSteps {
         homePage.openHomePage(url);
     }
 
-    @And("User clicks on News button")
+    @And("User clicks on News button on Home page")
     public void moveToNewsPage() {
         homePage.moveToNewsPage();
         newsPage = pageFactoryManager.getNewsPage();
@@ -62,7 +62,7 @@ public class DefinitionSteps {
         newsPage.closeRegisterModalWindow();
     }
 
-    @And("User checks that headline article title is the following {string}")
+    @And("^User checks that headline article title is the following (.+)$")
     public void checkHeadlineArticleTitle(final String expectedTitle) {
         System.out.println(newsPage.getHeadlineArticleTitleText());
         System.out.println(expectedTitle);
@@ -74,7 +74,7 @@ public class DefinitionSteps {
         return cell;
     }
 
-    @And("User sets required data on Send Us Question form")
+    @And("User sets required data on Send Us Question form on News page")
     public void setDataOnSendUsQuestion(final DataTable dataTable) {
         newsPage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, newsPage.getSendQuestionFormHeading());
         dataTable.asMaps().forEach(row -> {
@@ -84,6 +84,7 @@ public class DefinitionSteps {
             newsPage.moveToSendUsQuestionForm();
             newsPage.fillSendUsQuestionForm(question, name, email);
         });
+
     }
 
     @And("^User checks secondary article titles are the following (.+)$")
@@ -94,54 +95,59 @@ public class DefinitionSteps {
         assertTrue(newsPage.addSecondaryArticlesTitlesListIntoStringList().containsAll(titlesList));
     }
 
-
-    @And("User moves to the news by Category link")
+    @And("User moves to the news by Category link on News page")
     public void moveToTheNewsByCategoryLink() {
         newsPage.moveToNewsByCategoryLink();
     }
 
-    @And("User checks that the title of the first article is the same as {string}")
+    @And("^User checks that the title of the first article is the same as (.+)$")
     public void checkTitleOfTheFirstArticle(final String expectedTitleCategory) {
         assertEquals(newsPage.getHeadlineArticleCategory().getText(), expectedTitleCategory);
     }
 
-    @And("User clicks on Coronavirus button")
+    @And("User clicks on Coronavirus button on News page")
     public void clicksCoronavirusButton() {
         newsPage.clickCoronavirusMenuItem();
     }
 
-    @And("User clicks on Your Coronavirus Stories button")
+    @And("User clicks on Your Coronavirus Stories button on News page")
     public void clickYourCoronavirusStoriesButton() {
         newsPage.clickYourCoronavirusStoriesMenuItem();
     }
 
-    @And("User clicks on Coronavirus: Send us your questions link")
+    @And("User clicks on Coronavirus: Send us your questions link on News page")
     public void clickCoronavirusSendUsYourQuestionsLink() {
         newsPage.clickSendUsQuestionLink();
     }
 
-    @And("User clicks on Terms Of Service checkbox")
-    public void clickTermsOfServiceCheckbox() {
-        newsPage.clickTermsOfServiceCheckbox();
+    @And("User {string} on Terms Of Service checkbox on News page")
+    public void clickTermsOfServiceCheckbox(final String checkboxClicking) {
+        if (checkboxClicking.equals("clicks")) {
+            newsPage.clickTermsOfServiceCheckbox();
+        }
     }
 
-    @And("User clicks on Submit button on Send Us Question form")
+    @And("User clicks on Submit button on Send Us Question form on News page")
     public void clickSubmitButtonOnSendUsQuestionForm() {
         newsPage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, newsPage.getSendQuestionFormHeading());
         newsPage.clickSubmitButton();
     }
 
     @And("^User checks that the (.+) appears$")
-    public void checkErrorMessages(String expectedErrors) {
+    public void checkErrorMessages(final String expectedErrors) {
         List<String> errorList = Arrays.stream(expectedErrors.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
+        System.out.println(expectedErrors);
+        System.out.println(errorList);
         assertTrue(newsPage.addErrorMessagesListIntoStringList().containsAll(errorList));
     }
 
-    @And("The Name field content is not deleted")
-    public void checkNameFieldContentIsNotDeleted() {
-        assertFalse(newsPage.getNameFieldContent().isEmpty());
+    @And("The Name field content {string} deleted")
+    public void checkNameFieldContentIsNotDeleted(final String deletionChecking) {
+        if (deletionChecking.equals("is not")) {
+            assertFalse(newsPage.getNameFieldContent().isEmpty());
+        } else assertTrue(newsPage.getNameFieldContent().isEmpty());
     }
 }
 

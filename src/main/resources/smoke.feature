@@ -5,85 +5,50 @@ Feature: Smoke
 
   Scenario Outline: Check text of headline
     Given User is on the '<homePage>' page
-    When User clicks on News button
-    Then User checks that headline article title is the following '<headlineTitle>'
+    When User clicks on News button on Home page
+    Then User checks that headline article title is the following <headlineTitle>
 
     Examples:
-      | homePage             | headlineTitle                                   |
-      | https://www.bbc.com/ | UK police to investigate No 10 lockdown parties |
-
+      | homePage             | headlineTitle                                      |
+      | https://www.bbc.com/ | Pipeline won't open if Russia invades Ukraine - US |
 
   Scenario Outline: Check text of secondary article titles
     Given User is on the '<homePage>' page
-    When User clicks on News button
+    When User clicks on News button on Home page
     Then User checks secondary article titles are the following <secondaryArticleTitles>
 
     Examples:
-      | homePage             | secondaryArticleTitles                                                                                                                                                                                                                                |
-      | https://www.bbc.com/ | US could sanction Putin if Russia invades - Biden, French tourist jailed in Iran on spying charges, Thousands of drivers stranded by Athens snowstorm, Bollywood star cleared of obscenity over kiss, Pfizer-BioNTech start trials of new Omicron jab |
+      | homePage             | secondaryArticleTitles                                                                                                                 |
+      | https://www.bbc.com/ | Following Ukraine's bomb shelter map, Portraits of last Holocaust survivors unveiled, US Navy officer 'bribed by cash and prostitutes' |
 
   Scenario Outline: Check title of headline article from Category
     Given User is on the '<homePage>' page
-    And User clicks on News button
-    When User moves to the news by Category link
-    Then User checks that the title of the first article is the same as '<firstArticleTitle>'
+    And User clicks on News button on Home page
+    When User moves to the news by Category link on News page
+    Then User checks that the title of the first article is the same as <firstArticleTitle>
 
     Examples:
-      | homePage             | firstArticleTitle                            |
-      | https://www.bbc.com/ | Police to investigate No 10 lockdown parties |
+      | homePage             | firstArticleTitle                                  |
+      | https://www.bbc.com/ | Pipeline won't open if Russia invades Ukraine - US |
 
-  Scenario Outline: Check that appropriate error messages appears after clicking on Submit button on Send Us Question form without entering data.
+  Scenario Outline: Checks the error messages on Send Us Question form on News page
     Given User is on the '<homePage>' page
-    And User clicks on News button
-    And User clicks on Coronavirus button
-    And User clicks on Your Coronavirus Stories button
-    And User clicks on Coronavirus: Send us your questions link
-    When User clicks on Submit button on Send Us Question form
-    Then User checks that the <ErrorMessages> appears
-
-    Examples:
-      | homePage             | ErrorMessages                                                                    |
-      | https://www.bbc.com/ | can't be blank,Name can't be blank,Email address can't be blank,must be accepted |
-
-
-  Scenario Outline: Checks the error messages on Send Us Question form
-    Given User is on the '<homePage>' page
-    And User clicks on News button
-    And User clicks on Coronavirus button
-    And User clicks on Your Coronavirus Stories button
-    And User clicks on Coronavirus: Send us your questions link
-    When User sets required data on Send Us Question form
+    And User clicks on News button on Home page
+    And User clicks on Coronavirus button on News page
+    And User clicks on Your Coronavirus Stories button on News page
+    And User clicks on Coronavirus: Send us your questions link on News page
+    When User sets required data on Send Us Question form on News page
       | question       | name   | email   |
       | <questionText> | <name> | <email> |
-    And User clicks on Terms Of Service checkbox
-    And User clicks on Submit button on Send Us Question form
+    And User '<clicks>' on Terms Of Service checkbox on News page
+    And User clicks on Submit button on Send Us Question form on News page
     Then User checks that the <ErrorMessages> appears
+    And The Name field content '<is>' deleted
 
     Examples:
-      | homePage             | questionText | email         | ErrorMessages                                                     | name                                                                                                                                                                                                                                                                 |
-      | https://www.bbc.com/ | Test Message | test@test.com | Name is too long (maximum is 255 characters)                      | qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq |
-      | https://www.bbc.com/ | Test Message | [blank]       | Email address can't be blank                                      | Test Name                                                                                                                                                                                                                                                            |
-      | https://www.bbc.com/ | [blank]      | test@test.com | can't be blank                                                    | Test Name                                                                                                                                                                                                                                                            |
-      | https://www.bbc.com/ | Test Message | test@test.com | Name can't be blank                                               | [blank]                                                                                                                                                                                                                                                              |
-      | https://www.bbc.com/ | [blank]      | [blank]       | can't be blank, Name can't be blank, Email address can't be blank | [blank]                                                                                                                                                                                                                                                              |
-
-  Scenario Outline: Checks the name field content is not deleted in case of error
-    Given User is on the '<homePage>' page
-    And User clicks on News button
-    And User clicks on Coronavirus button
-    And User clicks on Your Coronavirus Stories button
-    And User clicks on Coronavirus: Send us your questions link
-    When User sets required data on Send Us Question form
-      | question       | name   | email   |
-      | <questionText> | <name> | <email> |
-    And User clicks on Terms Of Service checkbox
-    And User clicks on Submit button on Send Us Question form
-    Then User checks that the <ErrorMessages> appears
-    And The Name field content is not deleted
-
-    Examples:
-      | homePage             | questionText | email         | ErrorMessages                                | name                                                                                                                                                                                                                                                                 |
-      | https://www.bbc.com/ | Test Message | test@test.com | Name is too long (maximum is 255 characters) | qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq |
-
-
-
+      | homePage             | questionText | email         | clicks         | is     | ErrorMessages                                                                       | name                                                                                                                                                                                                                                                                 |
+      | https://www.bbc.com/ | Test Message | test@test.com | clicks         | is not | Name is too long (maximum is 255 characters)                                        | qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq |
+      | https://www.bbc.com/ | Test Message | [blank]       | clicks         | is not | Email address can't be blank                                                        | Test Name                                                                                                                                                                                                                                                            |
+      | https://www.bbc.com/ | [blank]      | test@test.com | clicks         | is not | can't be blank                                                                      | Test Name                                                                                                                                                                                                                                                            |
+      | https://www.bbc.com/ | Test Message | test@test.com | clicks         | is     | Name can't be blank                                                                 | [blank]                                                                                                                                                                                                                                                              |
+      | https://www.bbc.com/ | [blank]      | [blank]       | does not click | is     | can't be blank, Name can't be blank, Email address can't be blank, must be accepted | [blank]                                                                                                                                                                                                                                                              |
