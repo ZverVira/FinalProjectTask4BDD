@@ -18,8 +18,8 @@ Feature: Smoke
     Then User checks secondary article titles are the following <secondaryArticleTitles>
 
     Examples:
-      | homePage             | secondaryArticleTitles                                                                                                                 |
-      | https://www.bbc.com/ | Following Ukraine's bomb shelter map, Portraits of last Holocaust survivors unveiled, US Navy officer 'bribed by cash and prostitutes' |
+      | homePage             | secondaryArticleTitles                                                                                                                                                                                   |
+      | https://www.bbc.com/ | Ukraine: How big is Russia's military build-up?, N Korea missile tests: What does Kim Jong-un want?, The story behind the picture of this lone survivor, Former SS member speaks of shame over Nazi past |
 
   Scenario Outline: Check title of headline article from Category
     Given User is on the '<homePage>' page
@@ -69,3 +69,18 @@ Feature: Smoke
       | https://www.bbc.com/ | Scottish Championship | 2021-12 | Kilmarnock 1 1 Greenock Morton |
       | https://www.bbc.com/ | Champions League      | 2021-10 | Barcelona 1 0 Dynamo Kyiv      |
       | https://www.bbc.com/ | Bayern Munich         | 2021-11 | Dynamo Kyiv 1 2 Bayern Munich  |
+
+  Scenario Outline: Check that results of the first available game on Game page equal to results of the first available game on Sport page
+    Given User is on the '<homePage>' page
+    When User clicks on Sport button on Home page
+    And User selects Football menu item on Sport page
+    And User selects Scores And Fixtures menu item on Sport page
+    And User performs searching by championship '<championship>'
+    And User selects month of championship '<date>'
+    Then User check that results of the first available game on Game page equal to results of the first available game on Sport page
+
+    Examples:
+      | homePage             | championship          | date    |
+      | https://www.bbc.com/ | Scottish Championship | 2021-12 |
+      | https://www.bbc.com/ | Champions League      | 2021-10 |
+      | https://www.bbc.com/ | Bayern Munich         | 2021-11 |

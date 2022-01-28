@@ -139,8 +139,6 @@ public class DefinitionSteps {
         List<String> errorList = Arrays.stream(expectedErrors.split(","))
                 .map(String::trim)
                 .collect(Collectors.toList());
-        System.out.println(expectedErrors);
-        System.out.println(errorList);
         assertTrue(newsPage.addErrorMessagesListIntoStringList().containsAll(errorList));
     }
 
@@ -197,6 +195,19 @@ public class DefinitionSteps {
     public void checkResultsOfTheFirstAvailableGameOnGamePageEqualsToResultsOfTheFirstAvailableGameOnSportPage(final String gameResult) {
         gamePage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, gamePage.getGamePageHeader());
         assertEquals(gamePage.getHomeTeamActual() + " " + gamePage.getHomeTeamScoreActual() + " " + gamePage.getAwayTeamScoreActual() + " " + gamePage.getAwayTeamActual(), gameResult);
+
+    }
+
+
+    @Then("User check that results of the first available game on Game page equal to results of the first available game on Sport page")
+    public void checkThatResultsOfTheFirstAvailableGameOnGamePageEqualToResultsOfTheFirstAvailableGameOnSportPage() {
+        sportPage.moveToGameFromTheList();
+        String results = sportPage.getChampionshipGameResult();
+        sportPage.navigateToGameDetailPage();
+        gamePage = pageFactoryManager.getGamePage();
+        gamePage.waitForPageLoadComplete(DEFAULT_WAITING_TIME);
+        gamePage.waitVisibilityOfElement(DEFAULT_WAITING_TIME, gamePage.getGamePageHeader());
+        assertEquals(gamePage.getHomeTeamActual() + " " + gamePage.getHomeTeamScoreActual() + " " + gamePage.getAwayTeamScoreActual() + " " + gamePage.getAwayTeamActual(), results);
 
     }
 }
